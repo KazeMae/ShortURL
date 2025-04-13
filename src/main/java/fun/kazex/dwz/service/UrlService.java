@@ -8,5 +8,5 @@ package fun.kazex.dwz.service;
 public interface UrlService {
     String saveUrl(String longUrl, String originalUrl);
 
-    String getLongUrlByShortUrl(String shortURL);
+    String getLongUrlByShortUrl(String shortUrl);
 }

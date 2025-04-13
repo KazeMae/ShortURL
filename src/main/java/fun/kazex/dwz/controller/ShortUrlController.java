@@ -3,9 +3,7 @@ package fun.kazex.dwz.controller;
 import fun.kazex.dwz.entity.Result;
 import fun.kazex.dwz.service.UrlService;
 import fun.kazex.dwz.util.UrlUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -22,6 +20,9 @@ public class ShortUrlController {
     @Value("${server.host}")
     private String host;
 
+    @Value("${shortUrl.starts}")
+    private String shortUelStarts;
+
     public ShortUrlController(UrlService urlService) {
         this.urlService = urlService;
     }
@@ -31,7 +32,7 @@ public class ShortUrlController {
     public Result generateShortUrl(@RequestParam("longUrl") String longUrl) {
         if (UrlUtils.checkUrl(longUrl)) {
             String shortUrl = urlService.saveUrl(longUrl, longUrl);
-            return Result.ok("请求成功", host + shortUrl);
+            return Result.ok("请求成功", host + shortUelStarts + shortUrl);
         } else {
             return Result.create(400, "Url 有误");
         }

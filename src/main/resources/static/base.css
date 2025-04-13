@@ -1,32 +1,152 @@
+/* 全局样式 */
 body {
     box-sizing: border-box;
     width: 100vw;
     height: 100vh;
     margin: 0;
     padding: 0;
+    /* 优化渐变颜色，让过渡更自然 */
     background: linear-gradient(
             135deg,
-            hsl(170, 80%, 70%),
-            hsl(190, 80%, 70%),
-            hsl(250, 80%, 70%),
-            hsl(320, 80%, 70%)
+            hsl(170, 80%, 70%) 0%,
+            hsl(190, 80%, 70%) 25%,
+            hsl(250, 80%, 70%) 50%,
+            hsl(320, 80%, 70%) 75%,
+            hsl(170, 80%, 70%) 100%
     );
-    background-size: 200% 200%;
-    animation: gradient-move 15s ease alternate infinite;
+    background-size: 400% 400%;
+    animation: gradient-move 20s ease infinite;
+    font-family: Roboto, serif;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
 }
 
+/* 定义渐变动画 */
 @keyframes gradient-move {
     0% {
-        background-position: 0% 0%;
+        background-position: 0 0;
     }
     100% {
         background-position: 100% 100%;
     }
 }
 
+/* 居中容器样式 */
 .box {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.8); /* 添加半透明背景 */
+    padding: 20px; /* 增加内边距 */
+    border-radius: 10px; /* 圆角 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+}
+
+/* 按钮样式 */
+button {
+    width: 100%;
+    background-color: #3498db;
+    border: 0;
+    padding: 12px 0;
+    margin: 15px 0;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 5px; /* 按钮圆角 */
+    transition: background-color 0.3s ease; /* 过渡效果 */
+}
+
+button:hover {
+    background-color: #2980b9; /* 鼠标悬停时的背景颜色 */
+}
+
+/* 输入框容器样式 */
+.inp * {
+    box-sizing: border-box;
+}
+
+.inp {
+    display: grid;
+    position: relative;
+    margin: auto;
+    width: 800px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.inp.short {
+    display: block;
+    width: 300px;
+}
+
+/* 输入框标签样式 */
+.inp .label {
+    position: absolute;
+    top: 20px;
+    left: 12px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+    transform-origin: 0 0;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.2s ease;
+    pointer-events: none;
+}
+
+/* 输入框聚焦背景样式 */
+.inp .focus-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.05);
+    z-index: -1;
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+/* 输入框样式 */
+.inp input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    border: 0;
+    font-family: inherit;
+    padding: 16px 12px 0 12px;
+    height: 56px;
+    font-size: 16px;
+    font-weight: 400;
+    background: rgba(0, 0, 0, 0.02);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+    color: #000;
+    transition: all 0.15s ease;
+}
+
+.inp input:hover {
+    background: rgba(0, 0, 0, 0.04);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.inp input:not(:placeholder-shown) + .label {
+    color: rgba(0, 0, 0, 0.5);
+    transform: translate3d(0, -12px, 0) scale(0.75);
+}
+
+.inp input:focus {
+    background: rgba(0, 0, 0, 0.05);
+    outline: none;
+    box-shadow: inset 0 -2px 0 #0077FF;
+}
+
+.inp input:focus + .label {
+    color: #0077FF;
+    transform: translate3d(0, -12px, 0) scale(0.75);
+}
+
+.inp input:focus + .label + .focus-bg {
+    transform: scaleX(1);
+    transition: all 0.1s ease;
 }

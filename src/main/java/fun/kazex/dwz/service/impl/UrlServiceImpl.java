@@ -60,7 +60,7 @@ public class UrlServiceImpl extends ServiceImpl<UrlMapper, UrlMap>
         } else {
             // 不存在
             try {
-                urlMapper.insert(new UrlMap(shortUrl, originalUrl, System.currentTimeMillis()));
+                urlMapper.insert(new UrlMap(shortUrl, originalUrl));
                 FILTER.add(shortUrl);
                 // 添加缓存
                 redisTemplate.opsForValue().set(shortUrl, originalUrl, TIMEOUT, TimeUnit.MINUTES);
@@ -89,7 +89,8 @@ public class UrlServiceImpl extends ServiceImpl<UrlMapper, UrlMap>
         //Redis没有缓存，从数据库查找
         UrlMap urlMap = urlMapper.selectOne(new LambdaUpdateWrapper<UrlMap>()
                 .eq(UrlMap::getShortUrl, shortUrl));
-
+        if (urlMap == null)
+            return null;
         return urlMap.getLongUrl();
     }
 }

@@ -30,9 +30,10 @@ public class UrlMap {
 
     private Long createTime;
 
-    public UrlMap(String shortUrl, String longUrl, Long createTime) {
+    public UrlMap(String shortUrl, String longUrl) {
         this.shortUrl = shortUrl;
         this.longUrl = longUrl;
-        this.createTime = createTime;
+        this.views = 0;
+        this.createTime = System.currentTimeMillis();
     }
 }
