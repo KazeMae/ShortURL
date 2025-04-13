@@ -30,7 +30,7 @@ public class ShortUrlController {
     @ResponseBody
     public Result generateShortUrl(@RequestParam("longUrl") String longUrl) {
         if (UrlUtils.checkUrl(longUrl)) {
-            String shortUrl = urlService.saveUrl(longUrl);
+            String shortUrl = urlService.saveUrl(longUrl, longUrl);
             return Result.ok("请求成功", host + shortUrl);
         } else {
             return Result.create(400, "Url 有误");

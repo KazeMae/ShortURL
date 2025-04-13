@@ -28,4 +28,14 @@ public class IndexController {
         return "index";
     }
 
+    @GetMapping("/{shortURL}")
+    public String redirect(@PathVariable String shortURL) {
+        String longURL = urlService.getLongUrlByShortUrl(shortURL);
+        if (longURL != null) {
+            //查询到对应的原始链接，302重定向
+            return "redirect:" + longURL;
+        }
+        //没有对应的原始链接，直接返回首页
+        return "redirect:/";
+    }
 }

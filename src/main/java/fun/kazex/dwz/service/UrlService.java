@@ -6,5 +6,7 @@ package fun.kazex.dwz.service;
  * @Description: 映射业务接口
  **/
 public interface UrlService {
-    String saveUrl(String longUrl);
+    String saveUrl(String longUrl, String originalUrl);
+
+    String getLongUrlByShortUrl(String shortURL);
 }
