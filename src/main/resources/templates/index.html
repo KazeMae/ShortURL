@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>短链接生成</title>
+    <link rel="stylesheet" href="/base.css">
+</head>
+<body>
+<div class="box">
+    <input type="text" id="long">
+    <button type="button" id="generate">生成</button>
+    <input type="text" id="short">
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script>
+    $('#generate').click(() => {
+        let longUrl = $('#long').val();
+        if (longUrl) {
+            $.ajax({
+                url: "/generate",
+                type: "POST",
+                data: { longUrl: longUrl },
+                headers: {
+                    "Accept": "application/json"
+                },
+                dataType: "json",
+                success: function (res) {
+                    if (res.code === 200) {
+                        $('#short').val(res.data);
+                    } else {
+                        alert(res.msg);
+                    }
+                },
+                error: function () {
+                    alert('异常错误');
+                }
+            });
+        } else {
+            alert('请输入原始链接');
+        }
+    });
+</script>
+</body>
+</html>
