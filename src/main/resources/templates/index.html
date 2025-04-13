@@ -29,16 +29,24 @@
     $('#generate').click(() => {
         let longUrl = $('#long').val();
         if (longUrl) {
-            $.post("/generate", {
-                longUrl
-            }, function (res) {
-                if (res.code === 200) {
-                    $('#short').val(res.data);
-                } else {
-                    alert(res.msg);
+            $.ajax({
+                url: "/generate",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    longUrl: longUrl
+                }),
+                dataType: "json",
+                success: function (res) {
+                    if (res.code === 200) {
+                        $('#short').val(res.data);
+                    } else {
+                        alert(res.msg);
+                    }
+                },
+                error: function () {
+                    alert('异常错误');
                 }
-            }, "json").fail(() => {
-                alert('异常错误');
             });
         } else {
             alert('请输入原始链接');
