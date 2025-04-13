@@ -1,5 +1,7 @@
 package fun.kazex.dwz.controller;
 
+import fun.kazex.dwz.annotation.AccessLimit;
+import fun.kazex.dwz.entity.LongUrlDTO;
 import fun.kazex.dwz.entity.Result;
 import fun.kazex.dwz.service.UrlService;
 import fun.kazex.dwz.util.UrlUtils;
@@ -24,9 +26,11 @@ public class ShortUrlController {
         this.urlService = urlService;
     }
 
+    @AccessLimit(seconds = 1, maxCount = 10, msg = "1 秒内只能生成 10 次短链接")
     @PostMapping("/generate")
     @ResponseBody
-    public Result generateShortUrl(@RequestParam("longUrl") String longUrl) {
+    public Result generateShortUrl(@RequestBody LongUrlDTO longUrlDTO) {
+        String longUrl = longUrlDTO.getLongUrl();
         if (UrlUtils.checkUrl(longUrl)) {
             if (!longUrl.startsWith("http")) {
                 longUrl = "http://" + longUrl;

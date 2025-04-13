@@ -11,4 +11,4 @@ ADD target/dwz-0.0.1-SNAPSHOT.jar .
 EXPOSE 8070
 
 # 启动命令
-ENTRYPOINT ["java","-jar","/dwz-0.0.1-SNAPSHOT.jar","--spring.profiles.active=prod"]
+ENTRYPOINT ["java","-jar","/app/dwz-0.0.1-SNAPSHOT.jar","--spring.profiles.active=prod"]

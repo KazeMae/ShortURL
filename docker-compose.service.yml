@@ -1,0 +1,15 @@
+version: '3'
+services:
+  short-url:
+    container_name: short-url
+    build:
+      context: ./short-url
+      dockerfile: Dockerfile
+    ports:
+      - "8060:8060"
+    volumes:
+      - ./log:/app/log
+    networks:
+      - kBlognetwork
+networks:
+  kBlognetwork:
