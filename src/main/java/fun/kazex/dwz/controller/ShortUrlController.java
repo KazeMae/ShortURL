@@ -20,9 +20,6 @@ public class ShortUrlController {
     @Value("${server.host}")
     private String host;
 
-    @Value("${shortUrl.starts}")
-    private String shortUelStarts;
-
     public ShortUrlController(UrlService urlService) {
         this.urlService = urlService;
     }
@@ -31,8 +28,11 @@ public class ShortUrlController {
     @ResponseBody
     public Result generateShortUrl(@RequestParam("longUrl") String longUrl) {
         if (UrlUtils.checkUrl(longUrl)) {
+            if (!longUrl.startsWith("http")) {
+                longUrl = "http://" + longUrl;
+            }
             String shortUrl = urlService.saveUrl(longUrl, longUrl);
-            return Result.ok("请求成功", host + shortUelStarts + shortUrl);
+            return Result.ok("请求成功", host + shortUrl);
         } else {
             return Result.create(400, "Url 有误");
         }

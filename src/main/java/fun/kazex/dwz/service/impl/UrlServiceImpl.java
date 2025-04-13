@@ -81,16 +81,26 @@ public class UrlServiceImpl extends ServiceImpl<UrlMapper, UrlMap>
     @Override
     public String getLongUrlByShortUrl(String shortUrl) {
         //查找Redis中是否有缓存
-        String longURL = redisTemplate.opsForValue().get(shortUrl);
-        if (longURL != null) {
-            //有缓存
-            return longURL;
+        String longUrl = redisTemplate.opsForValue().get(shortUrl);
+        if (longUrl != null) {
+            //有缓存，延迟缓存时间
+            redisTemplate.expire(shortUrl, TIMEOUT, TimeUnit.MINUTES);
+            return longUrl;
         }
         //Redis没有缓存，从数据库查找
         UrlMap urlMap = urlMapper.selectOne(new LambdaUpdateWrapper<UrlMap>()
                 .eq(UrlMap::getShortUrl, shortUrl));
         if (urlMap == null)
             return null;
+        // 数据库中存在
+        redisTemplate.opsForValue().set(shortUrl, urlMap.getLongUrl(), TIMEOUT, TimeUnit.MINUTES);
         return urlMap.getLongUrl();
+    }
+
+    @Override
+    public void updateUrlViews(String shortUrl) {
+        urlMapper.update(new LambdaUpdateWrapper<UrlMap>()
+                .eq(UrlMap::getShortUrl, shortUrl)
+                .setSql("views = views + 1"));
     }
 }

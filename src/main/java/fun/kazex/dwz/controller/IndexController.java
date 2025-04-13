@@ -24,10 +24,12 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/a/{shortUrl}")
+    @GetMapping("/{shortUrl}")
     public String redirect(@PathVariable String shortUrl) {
         String longUrl = urlService.getLongUrlByShortUrl(shortUrl);
         if (longUrl != null) {
+            // 更新访问次数
+            urlService.updateUrlViews(shortUrl);
             // 查询到对应的原始链接，302重定向
             return "redirect:" + longUrl;
         }
